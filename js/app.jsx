@@ -1,51 +1,55 @@
 var React = require('react')
 
-var NavBar = React.createClass({
+var Pokemon = React.createClass({
   render: function() {
     return (
-      <ul>
-        <li>About</li>
-        <li>Blog</li>
-        <li>Product</li>
-        <li>Contact</li>
-      </ul>
+      <li>
+        <strong>Name:</strong> {this.props.pokemon.name}<br/>
+        <em>Level:</em> {this.props.pokemon.level}
+      </li>
     )
   }
 })
 
-var Title = React.createClass({
+var PokemonList = React.createClass({
   render: function() {
-    return (
-      <h1>Giant React Website™!</h1>
-    )
-  }
-})
-
-var Top = React.createClass({
-  render: function() {
+    var ourPokemon = this.props.pokemonList.map(function(pokemon) {
+      return (
+        <Pokemon pokemon={pokemon}/>
+      )
+    })
     return (
       <section>
-        <Title/>
-        <NavBar/>
+        <h3>Current Pokemon</h3>
+        <ul>{ourPokemon}</ul>
       </section>
     )
   }
 })
 
-var SubHeader = React.createClass({
+var PokemonListContainer = React.createClass({
+  getInitialState: function() {
+    return {
+      pokemon: [
+        {name: 'Charmander', level: 1},
+        {name: 'Bulbasaur', level: 1},
+        {name: 'Goodra', level: 1},
+        {name: 'Pikachu', level: 1}
+      ]
+    }
+  },
   render: function() {
     return (
-      <h3>This is a subheader</h3>
+      <PokemonList pokemonList={this.state.pokemon} />
     )
   }
 })
 
-var Content = React.createClass({
+var Header = React.createClass({
   render: function() {
     return (
       <section>
-        <SubHeader/>
-        <p>This is where all the stuff goes</p>
+        <h1>{this.props.slogan}</h1>
       </section>
     )
   }
@@ -55,11 +59,12 @@ var App = React.createClass({
   render: function() {
     return (
       <main>
-        <Top/>
-        <Content/>
+        <Header slogan="Gotta catch 'em all!" />
+        <PokemonListContainer />
       </main>
     )
   }
 })
 
-React.render(<App/>, document.body)
+
+React.render(<App />, document.body)

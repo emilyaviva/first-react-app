@@ -1,52 +1,56 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var React = require('react')
 
-var NavBar = React.createClass({displayName: "NavBar",
+var Pokemon = React.createClass({displayName: "Pokemon",
   render: function() {
     return (
-      React.createElement("ul", null, 
-        React.createElement("li", null, "About"), 
-        React.createElement("li", null, "Blog"), 
-        React.createElement("li", null, "Product"), 
-        React.createElement("li", null, "Contact")
+      React.createElement("li", null, 
+        React.createElement("strong", null, "Name:"), " ", this.props.pokemon.name, React.createElement("br", null), 
+        React.createElement("em", null, "Level:"), " ", this.props.pokemon.level
       )
     )
   }
 })
 
-var Title = React.createClass({displayName: "Title",
+var PokemonList = React.createClass({displayName: "PokemonList",
   render: function() {
-    return (
-      React.createElement("h1", null, "Giant React Website™!")
-    )
-  }
-})
-
-var Top = React.createClass({displayName: "Top",
-  render: function() {
+    var ourPokemon = this.props.pokemonList.map(function(pokemon) {
+      return (
+        React.createElement(Pokemon, {pokemon: pokemon})
+      )
+    })
     return (
       React.createElement("section", null, 
-        React.createElement(Title, null), 
-        React.createElement(NavBar, null)
+        React.createElement("h3", null, "Current Pokemon"), 
+        React.createElement("ul", null, ourPokemon)
       )
     )
   }
 })
 
-var SubHeader = React.createClass({displayName: "SubHeader",
+var PokemonListContainer = React.createClass({displayName: "PokemonListContainer",
+  getInitialState: function() {
+    return {
+      pokemon: [
+        {name: 'Charmander', level: 1},
+        {name: 'Bulbasaur', level: 1},
+        {name: 'Goodra', level: 1},
+        {name: 'Pikachu', level: 1}
+      ]
+    }
+  },
   render: function() {
     return (
-      React.createElement("h3", null, "This is a subheader")
+      React.createElement(PokemonList, {pokemonList: this.state.pokemon})
     )
   }
 })
 
-var Content = React.createClass({displayName: "Content",
+var Header = React.createClass({displayName: "Header",
   render: function() {
     return (
       React.createElement("section", null, 
-        React.createElement(SubHeader, null), 
-        React.createElement("p", null, "This is where all the stuff goes")
+        React.createElement("h1", null, this.props.slogan)
       )
     )
   }
@@ -56,12 +60,13 @@ var App = React.createClass({displayName: "App",
   render: function() {
     return (
       React.createElement("main", null, 
-        React.createElement(Top, null), 
-        React.createElement(Content, null)
+        React.createElement(Header, {slogan: "Gotta catch 'em all!"}), 
+        React.createElement(PokemonListContainer, null)
       )
     )
   }
 })
+
 
 React.render(React.createElement(App, null), document.body)
 
